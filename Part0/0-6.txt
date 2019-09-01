@@ -1,0 +1,9 @@
+diagram on
+https://www.websequencediagrams.com/
+
+browser->server: HTTP POST https://fullstack-exampleapp.herokuapp.com/new_note_spa
+
+note over browser:
+Re-render the notes 
+without reloading the page
+end note
