@@ -1,18 +1,9 @@
 import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 
-// render 
-const Button = (props) => {
-    return (
-        <div>
-            <button onClick={props.handleClick}>
-                Next anecdote
-            </button>
-        </div>
-    )
-}
 const App = (props) => {
   const [selected, setSelected] = useState(0)
+  const [votes, setVotes] = useState(new Array(6).fill(0))
 
   const updateSelected = () => {
       let random = 0
@@ -22,11 +13,21 @@ const App = (props) => {
       } while(random === selected)
       setSelected(random)
   }
-  
+
+  const updateVote = () => {
+      const copy = [...votes]
+      copy[selected] += 1
+      setVotes(copy)
+  }
+
   return (
     <div>
         {props.anecdotes[selected]}
-        <Button handleClick={()=> updateSelected()}/>
+        <Text text="votes" voteCount={votes[selected]}/>
+        <div>
+        <Button handleClick={()=> updateSelected()} text="Next anecdote"/>
+        <Button handleClick={() => updateVote()} text="Vote" />
+        </div>
     </div>
   )
 }
@@ -44,6 +45,18 @@ const anecdotes = [
 function getRandomInt(max) {
     return Math.floor(Math.random() * Math.floor(max));
 }
+// Render a button with an onClick function and a text
+const Button = (props) => {
+    return (
+        
+            <button onClick={props.handleClick}>
+                {props.text}
+            </button>
+       
+    )
+}
+
+const Text = (props) => <p>{props.voteCount} {props.text}</p>
 
 ReactDOM.render(
   <App anecdotes={anecdotes} />,
