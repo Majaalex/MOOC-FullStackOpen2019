@@ -18,12 +18,22 @@ const Display = (props) => (
         <p>{props.text} {props.number}</p>
     </div>
 )
-const Statistics = (props) => (
-    <div>
-        <p>Average {(props.good - props.bad) / props.total}</p>
-        <p>Positive {props.good / props.total* 100}%</p>
-    </div>
-)
+const Statistics = (props) => {
+    if(props.total != 0){
+        return(
+            <div>
+                <p>Average {(props.good - props.bad) / props.total}</p>
+                <p>Positive {props.good / props.total* 100}%</p>
+            </div>
+        )
+    } else {
+        return (
+            <div>
+                <p>No feedback given</p>
+            </div>
+        )
+    }
+}
 
 const App = () => {
     const title = "Give feedback"
@@ -61,6 +71,7 @@ const App = () => {
         <Display number={neutral} text={neutralT}/>
         <Display number={bad} text={badT}/>
         <Display number={total} text={totalT} />
+        <Header text="Statistics" />
         <Statistics total={total} good={good} bad={bad} />
     </div>
   )
