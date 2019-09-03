@@ -23,7 +23,6 @@ const Content = (props) => {
 
 const Part = (props) => {
   console.log(props)
-
   return (
     <p>{props.part1.name} {props.part1.exercises}</p>
   )
@@ -54,7 +53,6 @@ const App = () => {
       }
     ]
   }
-
   return (
     <div>
       <Header course={course.name} />
