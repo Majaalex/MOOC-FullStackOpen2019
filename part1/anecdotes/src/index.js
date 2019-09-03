@@ -20,13 +20,23 @@ const App = (props) => {
       setVotes(copy)
   }
 
+  const hasMostVotes = (element) => element === Math.max(...votes)
+
   return (
     <div>
+        <div>
+        <Header text="Anecdote of the day" />
         {props.anecdotes[selected]}
         <Text text="votes" voteCount={votes[selected]}/>
+        </div>
         <div>
         <Button handleClick={()=> updateSelected()} text="Next anecdote"/>
-        <Button handleClick={() => updateVote()} text="Vote" />
+        <Button handleClick={()=> updateVote()} text="Vote" />
+        </div>
+        <Header text="Top voted anecdote" />
+        <div>
+        {props.anecdotes[votes.findIndex(hasMostVotes)]}
+        <Text text="votes" voteCount={Math.max(...votes)}/>
         </div>
     </div>
   )
@@ -42,21 +52,20 @@ const anecdotes = [
 ]
 
 // Return a random number between 0 and the specified maximum
-function getRandomInt(max) {
-    return Math.floor(Math.random() * Math.floor(max));
-}
+const getRandomInt = (max) => Math.floor(Math.random() * Math.floor(max))
+const Header = (props) => <h1>{props.text}</h1>
+const Text = (props) => <p>{props.voteCount} {props.text}</p>
+
 // Render a button with an onClick function and a text
 const Button = (props) => {
     return (
-        
-            <button onClick={props.handleClick}>
-                {props.text}
-            </button>
+    <button onClick={props.handleClick}>
+    {props.text}
+    </button>
        
     )
 }
 
-const Text = (props) => <p>{props.voteCount} {props.text}</p>
 
 ReactDOM.render(
   <App anecdotes={anecdotes} />,
