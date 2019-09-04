@@ -1,9 +1,9 @@
 import React from 'react'
 
-const Part = (props) => (
+const Paragraph = (props) => (
   <p key={props.part.id}>
   {props.part.name} {props.part.exercises}
   </p>
 )
 
-export default Part
+export default Paragraph

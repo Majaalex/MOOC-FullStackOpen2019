@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Total = (props) => {
+const Exercises = (props) => {
     const parts = props.parts
     const exercises = parts.reduce((total, current) => total + current.exercises,0)      
     
@@ -9,4 +9,4 @@ const Total = (props) => {
     )
 }
 
-export default Total
+export default Exercises

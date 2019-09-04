@@ -1,10 +1,10 @@
 import React from 'react'
-import Part from './Paragraph'
+import Paragraph from './Paragraph'
 
 const Content = (props) => { 
     const parts = props.parts
     return (
-        parts.map((part) => <Part part={part}  key={part.id}/>)
+        parts.map((part) => <Paragraph part={part}  key={part.id}/>)
     )
   }
 
