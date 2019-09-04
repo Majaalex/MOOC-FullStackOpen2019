@@ -1,9 +1,7 @@
 import React from 'react'
 import Part from './Part'
 
-const Content = (props) => {
-    console.log(props)
-  
+const Content = (props) => { 
     return (
       <div>
         <Part part1={props.parts[0]}/>

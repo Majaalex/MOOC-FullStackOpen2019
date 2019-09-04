@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import Courses from './components/Courses'
 
 const App = () => {
-  const course = {
+  const courses = {
     name: 'Half Stack application development',
     parts: [
       {
@@ -25,7 +25,7 @@ const App = () => {
   }
   return (
     <div>
-      <Courses course={course}/>
+      <Courses course={courses}/>
     </div>
   )
 }
