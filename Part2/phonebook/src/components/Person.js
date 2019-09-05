@@ -1,10 +1,10 @@
 import React from 'react'
 
 const Person = (props) => (
-<p key={props.name}>{props.name}</p>
-)
-    
+    props.persons.map(person => 
+    <p key={person.name}>
+    {person.name} {person.number}
+    </p>
+))
   
-
-
 export default Person

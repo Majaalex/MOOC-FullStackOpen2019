@@ -3,30 +3,41 @@ import Person from './components/Person'
 
 const App = () => {
   const [ persons, setPersons] = useState([
-    { name: 'Arto Hellas' }
+    { name: 'Arto Hellas', number: '040-123456' },
+    { name: 'Ada Lovelace', number: '39-44-5323523' },
+    { name: 'Dan Abramov', number: '12-43-234345' },
+    { name: 'Mary Poppendieck', number: '39-23-6423122' }
   ]) 
   const [ newName, setNewName ] = useState('')
+  const [ newNumber, setNewNumber ] = useState('')
 
   const addName = (event) => {
     event.preventDefault()
     const nameObject = {
-      name: newName
+      name: newName,
+      number: newNumber
     }
-    checkExistingNames(nameObject.name) 
-    ? alert(`Error! ${nameObject.name} already exists in the phonebook`)
+
+    checkExistingPersons(nameObject) 
+    ? alert(`${newName} or ${newNumber} already exists in the phonebook.`)
     : setPersons(persons.concat(nameObject))
     setNewName('')
+    setNewNumber('')
   }
 
-  const handleAddNames = (event) => {
-    setNewName(event.target.value)
-  }
+  const handleAddNames = (event) => setNewName(event.target.value)
+  const handleAddNumbers = (event) => setNewNumber(event.target.value)
 
-  const checkExistingNames = (name) => {
-    const check = persons.find(function(element) {
-      return element.name === name
+  const checkExistingPersons = (nameObject) => {
+    const nameExists = persons.find(function(x) {
+      return x.name === nameObject.name
     })
-    return check ? true : false
+    const numberExists = persons.find(function(x) {
+      return x.number === nameObject.number
+    })
+    return nameExists || numberExists
+    ? true
+    : false
   }
 
    return (
@@ -35,6 +46,7 @@ const App = () => {
       <form onSubmit={addName}>
         <div>
           name: <input value={newName} onChange={handleAddNames}/>
+          number: <input value={newNumber} onChange={handleAddNumbers}/>
         </div>
         <div>
           <div>debug: {newName}</div>
@@ -43,10 +55,7 @@ const App = () => {
       </form>
       <h2>Numbers</h2>
       <div>
-        {persons.map(person => 
-        <Person 
-          key={person.name}
-          name={person.name}/>)}
+        <Person persons={persons} />
       </div>
     </div>
   )
