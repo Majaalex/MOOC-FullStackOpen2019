@@ -9,16 +9,24 @@ const App = () => {
 
   const addName = (event) => {
     event.preventDefault()
-    console.log('button click', event.target);
     const nameObject = {
       name: newName
     }
-    setPersons(persons.concat(nameObject))
+    checkExistingNames(nameObject.name) 
+    ? alert(`Error! ${nameObject.name} already exists in the phonebook`)
+    : setPersons(persons.concat(nameObject))
     setNewName('')
   }
+
   const handleAddNames = (event) => {
-    console.log('event target value', event.target.value)
     setNewName(event.target.value)
+  }
+
+  const checkExistingNames = (name) => {
+    const check = persons.find(function(element) {
+      return element.name === name
+    })
+    return check ? true : false
   }
 
    return (
