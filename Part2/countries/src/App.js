@@ -23,7 +23,7 @@ function App() {
   }
   return (
     <div className="App">
-      <Input onChange={handleAddFilter} value={newFilter} />
+      <Input text="Find countries: " onChange={handleAddFilter} value={newFilter} />
       <Countries data={filterCountries()} />
     </div>
   );
