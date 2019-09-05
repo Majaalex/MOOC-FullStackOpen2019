@@ -1,6 +1,6 @@
 import React from 'react';
 
- const Form = (props) => {
+const Form = (props) =>
   <form onSubmit={props.addPerson}>
     <div>
       Name: <input value={props.newName} onChange={props.handleAddNames} />
@@ -9,7 +9,7 @@ import React from 'react';
     <div>
       <button type="submit">add</button>
     </div>
-  </form>;
-};
+  </form>
+
 
 export default Form

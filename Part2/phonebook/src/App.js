@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import Person from './components/Person'
+import Filter from './components/Filter'
+import Form from './components/Form'
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -18,7 +20,6 @@ const App = () => {
       name: newName,
       number: newNumber
     }
-
     checkExistingPersons(nameObject)
       ? alert(`${newName} or ${newNumber} already exists in the phonebook.`)
       : setPersons(persons.concat(nameObject))
@@ -41,37 +42,23 @@ const App = () => {
       ? true
       : false
   }
-
-  const filterPersons = () => {
-    const matches = persons.filter(person => person.name.toLowerCase().includes(newFilter))
-    return matches.length > 0 ? matches : persons
-  }
-
-
-
   return (
     <div>
       <h1>Phonebook</h1>
-      <div>
-        Filter by name: <input value={newFilter} onChange={handleAddFilter} />
-      </div>
+      <Filter value={newFilter} onChange={handleAddFilter} />
       <h2>New contact</h2>
-
-      <form onSubmit={addPerson}>
-        <div>
-          Name: <input value={newName} onChange={handleAddNames} />
-          Number: <input value={newNumber} onChange={handleAddNumbers} />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
+      <Form addPerson={addPerson}
+        handleAddNames={handleAddNames}
+        handleAddNumbers={handleAddNumbers}
+        newName={newName}
+        newNumber={newNumber} />
       <h2>Numbers</h2>
-      <div>
-        <Person persons={filterPersons()} />
-      </div>
+      <Person persons={persons.filter(person => person.name.toLowerCase().includes(newFilter))} />
     </div>
   )
 }
+
+
+
 
 export default App
