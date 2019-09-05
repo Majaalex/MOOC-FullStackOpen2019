@@ -1,4 +1,4 @@
-import React, { useEffect} from 'react'
+import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 
 const Country = (props) => {
@@ -8,7 +8,7 @@ const Country = (props) => {
         <div>
             <Info country={country} />
             <Languages country={country} />
-            {/*<Weather capital={country.capital} />*/}
+            <Weather capital={country.capital} />
         </div>
     )
 }
@@ -33,49 +33,45 @@ const Languages = (props) => {
                     return <li key={lang.iso639_2}>{lang.name}</li>;
                 })}
             </ul>
-            <img src={country.flag} tag="Country flag" width={500} height={300} mode='fit' border="1" alt={country.name + " flag"} />
+            <img src={country.flag} width={500} height={300} mode='fit' border="1" alt={country.name + " flag"} />
         </div>
     )
 }
 
-/*
+
 const Weather = (props) => {
-    // Need to somehow incorporate useState to get this to function? Currently does not render due to missing things to render
-    function draw({props}){
-        useEffect(() => {
-            const api_key = "e384ad3cf8dc402ca0b205505190509&q"
-            const url = "https://api.apixu.com/v1/current.json?key=" + api_key + "=" + props.capital
-            console.log('url', url)
-            const buildWeather = (data) => {
-                console.log('data', data)
-                return (
-                    <div>
-                        <h3>Weather in {props.capital}</h3>
-                        <strong>Temperature: </strong> {data.temp_c}
-                        <img src={data.condition.icon} height="64" width="64" alt={props.capital + "Weather"}></img>
-                        <strong>Wind speed:</strong> {data.wind_kph} <strong>direction:</strong> {data.wind_dir}
-                    </div>
-                )
-            }
-            console.log('Making a database request')
-            axios
-                .get(url).then((response) => {
-                    console.log('responswe', response)
-                    return (
-                        buildWeather(response.data.current)
-                    )
-                })
-        }, [])
+    const [newData, setNewData] = useState('')
+    const [newIcon, setNewIcon] = useState('')
+    const buildWeather = (data) => {
+        
+        return (
+            <div>
+                <h3>Weather in {props.capital}</h3>
+                <p><strong>Temperature: </strong> {data.temp_c}C</p>
+                <img src={newIcon} height="64" width="64" alt={props.capital + "Weather icon"} />
+                <p><strong>Wind speed:</strong> {data.wind_kph} KPH</p>
+                <p><strong>Direction:</strong> {data.wind_dir}</p>
+            </div>
+        )
     }
-    
+
+    useEffect(() => {
+        const api_key = "e384ad3cf8dc402ca0b205505190509&q"
+        const url = "https://api.apixu.com/v1/current.json?key=" + api_key + "=" + props.capital
+        axios
+            .get(url).then((response) => {
+                setNewIcon(response.data.current.condition.icon)
+                setNewData(response.data.current)
+            })
+    }, [])
 
     return (
         <div>
-            {draw}
+            {buildWeather(newData)}
         </div>
 
     )
 
-}*/
+}
 
 export default Country
