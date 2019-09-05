@@ -16,7 +16,7 @@ const Country = (props) => {
                     return <li key={lang.iso639_2}>{lang.name}</li>;
                 })}
             </ul>
-            <img src={country.flag} tag="Country flag" width={500} height={300} mode='fit' border="1" />
+            <img src={country.flag} tag="Country flag" width={500} height={300} mode='fit' border="1" alt={country.name + " flag"}/>
         </div>
     </div>);
 }
