@@ -1,7 +1,14 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import App from './components/App'
+import axios from 'axios'
 
+axios
+  .get('http://localhost:3001/notes')
+  .then(response => {
+    const notes = response.data
+    console.log(notes)
+  })
 
 const courses = [
   {
@@ -29,7 +36,7 @@ const courses = [
         id: 4
       }
     ]
-  }, 
+  },
   {
     name: 'Node.js',
     id: 2,
@@ -48,4 +55,4 @@ const courses = [
   }
 ]
 
-ReactDOM.render(<App courses={courses}/>, document.getElementById('root'))
+ReactDOM.render(<App courses={courses} />, document.getElementById('root'))
