@@ -4,6 +4,7 @@ import axios from 'axios';
 import Countries from './components/Countries'
 
 function App() {
+  require('dotenv').config()
   const [newFilter, setNewFilter] = useState('')
   const [newCountries, setNewCountries] = useState([])
   const handleAddFilter = (event) => setNewFilter(event.target.value)
