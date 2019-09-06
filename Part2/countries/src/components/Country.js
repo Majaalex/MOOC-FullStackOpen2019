@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 
-const Country = (props) => {
-    const country = props.country
-    console.log('Country', country)
+const Country = ( { country }) => {
     return (
         <div>
             <Info country={country} />

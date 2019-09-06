@@ -6,7 +6,7 @@ import Countries from './components/Countries'
 function App() {
   const [newFilter, setNewFilter] = useState('')
   const [newCountries, setNewCountries] = useState([])
-  const handleAddFilter = (event) => setNewFilter(event.target.value)
+  const handleAddFilter = (event) => setNewFilter(event.target.value.toLowerCase())
 
   useEffect(() => {
     console.log('Making a database request')
@@ -24,7 +24,7 @@ function App() {
   return (
     <div className="App">
       <Input text="Find countries: " onChange={handleAddFilter} value={newFilter} />
-      <Countries data={filterCountries()} />
+      <Countries data={filterCountries()} onClick={handleAddFilter}/>
     </div>
   );
 }
