@@ -9,4 +9,4 @@ Chapter 2B - phonebook
 
 Chapter 2C
 
-2.11 2.12 (2.13 and 2.14 not completed)
+2.11 2.12 2.14 (2.13 and  not completed)
