@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Person from './components/Person'
 import Filter from './components/Filter'
 import Form from './components/Form'
-import axios from 'axios'
+import useService from './services/persons'
 
 
 const App = () => {
@@ -13,15 +13,17 @@ const App = () => {
 
   const addPerson = (event) => {
     event.preventDefault()
-    const nameObject = {
+    const newPerson = {
       name: newName,
       number: newNumber
     }
-    checkExistingPersons(nameObject)
+    checkExistingPersons(newPerson)
       ? alert(`${newName} or ${newNumber} already exists in the phonebook.`)
-      : setPersons(persons.concat(nameObject))
+      : setPersons(persons.concat(newPerson))
+    useService.create(newPerson)
     setNewName('')
     setNewNumber('')
+    
   }
 
   const handleAddNames = (event) => setNewName(event.target.value)
@@ -42,11 +44,10 @@ const App = () => {
 
   useEffect(() => {
     console.log('effect')
-    axios
-      .get('http://localhost:3001/persons').then(response => {
-        console.log('promise fulfilled')
-        setPersons(response.data)
-      })
+    const persons = useService.getAll()
+    persons.then(response => {
+      setPersons(response)      
+    })
   }, [])
 
   return (
