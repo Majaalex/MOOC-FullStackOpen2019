@@ -26,4 +26,9 @@ const update = (id, newObject) => {
     })
 }
 
-export default {getAll, create, update}
+const remove = (id) => {
+    axios.delete(`${baseUrl}/${id}`)
+    console.log('Entry deleted')
+}
+
+export default {getAll, create, update, remove}

@@ -15,7 +15,8 @@ const App = () => {
     event.preventDefault()
     const newPerson = {
       name: newName,
-      number: newNumber
+      number: newNumber,
+      id: persons.length
     }
     checkExistingPersons(newPerson)
       ? alert(`${newName} or ${newNumber} already exists in the phonebook.`)
@@ -23,12 +24,16 @@ const App = () => {
     useService.create(newPerson)
     setNewName('')
     setNewNumber('')
-    
   }
 
   const handleAddNames = (event) => setNewName(event.target.value)
   const handleAddNumbers = (event) => setNewNumber(event.target.value)
   const handleAddFilter = (event) => setNewFilter(event.target.value)
+  
+  const handleRemovePersons = (event) => {        
+    useService.remove(event.target.value)
+    setPersons(persons.filter(person => String(person.id) !== event.target.value))
+  }
 
   const checkExistingPersons = (nameObject) => {
     const nameExists = persons.find(function (x) {
@@ -58,7 +63,7 @@ const App = () => {
         newName={newName}
         newNumber={newNumber} />
       <h2>Numbers</h2>
-      <Person persons={persons.filter(person => person.name.toLowerCase().includes(newFilter))} />
+      <Person persons={persons.filter(person => person.name.toLowerCase().includes(newFilter))} onClick={handleRemovePersons}/>
     </div>
   )
 }
