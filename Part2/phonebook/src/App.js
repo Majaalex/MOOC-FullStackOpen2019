@@ -43,11 +43,8 @@ const App = () => {
   }
 
   useEffect(() => {
-    console.log('effect')
     const persons = useService.getAll()
-    persons.then(response => {
-      setPersons(response)      
-    })
+    persons.then(response => setPersons(response))
   }, [])
 
   return (
