@@ -10,3 +10,11 @@ Chapter 2B - phonebook
 Chapter 2C
 
 2.11 2.12 2.13 2.14 
+
+Chapter 2D
+
+2.15 2.16 2.17 2.18
+
+Chapter 2E
+
+2.19 2.20
