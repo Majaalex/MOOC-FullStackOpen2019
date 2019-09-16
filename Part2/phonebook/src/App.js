@@ -10,24 +10,18 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [newFilter, setNewFilter] = useState('')
 
-  const addPerson = (event) => {
+  const updateList = (event) => {
     event.preventDefault()
     const newPerson = {
       name: newName,
       number: newNumber,
       id: persons.length * Math.floor(Math.random() * Math.floor(100))
     }
+    // Update an entry on case 1, add an entry on case 0;
     switch (checkExistingPersons(newPerson)) {
       case 1:
-        const oldPeople = persons.filter(person => newPerson.name === person.name)
-        const oldPerson = oldPeople[0]
-        newPerson.id = oldPerson.id
-        const newPeople = persons.filter(person => String(person.id) !== newPerson.id)
-        newPeople.concat(newPerson)
-        console.log("newpeople", newPeople, persons)
-        setPersons(newPeople)
-        console.log("after", newPeople, persons)
-        useService.update(newPerson.id, newPerson)
+        const prompt = `${newPerson.name}  is already in the phonebook, replace the old number with the new one?`
+        if (window.confirm(prompt)) handleUpdatePerson(persons, newPerson, setPersons)
         break
       case 0:
         setPersons(persons.concat(newPerson))
@@ -43,20 +37,22 @@ const App = () => {
     setNewName('')
     setNewNumber('')
   }
+  const handleUpdatePerson = (persons, newPerson, setPersons) => {
+    const oldPeople = persons.filter(person => newPerson.name === person.name);
+    const oldPerson = oldPeople[0];
+    newPerson.id = oldPerson.id;
+    setPersons(persons.splice(persons.findIndex(pers => pers.id === oldPerson.id), 1));
+    setPersons(persons.concat(newPerson));
+    useService.update(newPerson.id, newPerson);
+  }
 
-  const handleAddNames = (event) => {
-    return setNewName(event.target.value);
-  }
-  const handleAddNumbers = (event) => {
-    return setNewNumber(event.target.value);
-  }
-  const handleAddFilter = (event) => {
-    return setNewFilter(event.target.value);
-  }
+  const handleAddNames = (event) => setNewName(event.target.value)
+  const handleAddNumbers = (event) => setNewNumber(event.target.value)
+  const handleAddFilter = (event) => setNewFilter(event.target.value)
 
   const handleRemovePersons = (event) => {
     const toDelete = persons.filter(person => String(person.id) === event.target.value)
-    if (window.confirm(`Delete ${toDelete[0].name}?`)){
+    if (window.confirm(`Delete ${toDelete[0].name}?`)) {
       useService.remove(toDelete[0])
       setPersons(persons.filter(person => String(person.id) !== event.target.value))
     }
@@ -83,7 +79,7 @@ const App = () => {
       <h1>Phonebook</h1>
       <Filter value={newFilter} onChange={handleAddFilter} />
       <h2>New contact</h2>
-      <Form addPerson={addPerson}
+      <Form addPerson={updateList}
         handleAddNames={handleAddNames}
         handleAddNumbers={handleAddNumbers}
         newName={newName}
@@ -94,7 +90,5 @@ const App = () => {
   )
 }
 
-
-
-
 export default App
+
