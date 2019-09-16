@@ -3,12 +3,15 @@ import Person from './components/Person'
 import Filter from './components/Filter'
 import Form from './components/Form'
 import useService from './services/persons'
+import Notification from './components/Notification'
 
 const App = () => {
   const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [newFilter, setNewFilter] = useState('')
+  const [errorMessage, setErrorMessage] = useState(null)
+  const [positiveMessage, setPositiveMessage] = useState(null)
 
   const updateList = (event) => {
     event.preventDefault()
@@ -24,8 +27,21 @@ const App = () => {
         if (window.confirm(prompt)) handleUpdatePerson(persons, newPerson, setPersons)
         break
       case 0:
-        setPersons(persons.concat(newPerson))
-        useService.create(newPerson)
+        useService.create(newPerson).then(() => {
+          setPersons(persons.concat(newPerson))
+          setPositiveMessage(`${newPerson.name} has been added.`)
+          setTimeout(() => {
+            setPositiveMessage(null)
+          }, 5000)
+        })
+          .catch(error => {
+            setErrorMessage(
+              `Could not add ${newPerson.name} to the phonebook.`
+            )
+            setTimeout(() => {
+              setErrorMessage(null)
+            }, 5000)
+          })
         break
       case 9:
         alert(`${newName} or ${newNumber} already exists in the phonebook.`)
@@ -41,9 +57,20 @@ const App = () => {
     const oldPeople = persons.filter(person => newPerson.name === person.name);
     const oldPerson = oldPeople[0];
     newPerson.id = oldPerson.id;
-    setPersons(persons.splice(persons.findIndex(pers => pers.id === oldPerson.id), 1));
-    setPersons(persons.concat(newPerson));
-    useService.update(newPerson.id, newPerson);
+    useService.update(newPerson.id, newPerson).then(() => {
+      setPersons(persons.splice(persons.findIndex(pers => pers.id === oldPerson.id), 1))
+      setPersons(persons.concat(newPerson))
+      setPositiveMessage(`${oldPerson.name}'s phonenumber has been updated.`)
+          setTimeout(() => {
+            setPositiveMessage(null)
+          }, 5000)
+    })
+      .catch(error => {
+        setErrorMessage(`Could not update ${oldPerson.name}'s phone number.`)
+        setTimeout(() => {
+          setErrorMessage(null)
+        }, 5000)
+      })
   }
 
   const handleAddNames = (event) => setNewName(event.target.value)
@@ -55,6 +82,10 @@ const App = () => {
     if (window.confirm(`Delete ${toDelete[0].name}?`)) {
       useService.remove(toDelete[0])
       setPersons(persons.filter(person => String(person.id) !== event.target.value))
+        setPositiveMessage(`${toDelete[0].name} has been removed.`)
+          setTimeout(() => {
+            setPositiveMessage(null)
+          }, 5000)
     }
   }
 
@@ -77,6 +108,8 @@ const App = () => {
   return (
     <div>
       <h1>Phonebook</h1>
+      <Notification message={errorMessage} type='error' />
+      <Notification message={positiveMessage} type='confirmation' />
       <Filter value={newFilter} onChange={handleAddFilter} />
       <h2>New contact</h2>
       <Form addPerson={updateList}
