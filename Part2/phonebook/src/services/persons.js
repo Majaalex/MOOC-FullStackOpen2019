@@ -1,7 +1,5 @@
 import axios from 'axios'
 const baseUrl = "/api/persons"
-const baseUrlLocal = 'https://salty-hollows-94670.herokuapp.com/api/persons'
-const infoUrl = 'http://localhost:3001/info'
 
 const getAll = () => {
     const request = axios.get(baseUrl)
@@ -20,7 +18,11 @@ const create = newObject => {
 }
 
 const update = (id, newObject) => {
-    const request = axios.put(`${baseUrl}/${id}`, newObject)
+    console.log('Inside update')
+    
+    const request = axios.post(`${baseUrl}/${id}`, newObject)
+    console.log('AFter req')
+    
     return request.then(response => {
         console.log('Updated the data')
         return response.data;

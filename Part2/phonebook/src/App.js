@@ -57,7 +57,11 @@ const App = () => {
     const oldPeople = persons.filter(person => newPerson.name === person.name);
     const oldPerson = oldPeople[0];
     newPerson.id = oldPerson.id;
+    console.log('trying to update')
+    
     useService.update(newPerson.id, newPerson).then(() => {
+      console.log('Updating')
+      
       setPersons(persons.splice(persons.findIndex(pers => pers.id === oldPerson.id), 1))
       setPersons(persons.concat(newPerson))
       setPositiveMessage(`${oldPerson.name}'s phonenumber has been updated.`)
