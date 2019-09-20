@@ -20,7 +20,7 @@ const create = newObject => {
 const update = (id, newObject) => {
     console.log('Inside update')
     
-    const request = axios.post(`${baseUrl}/${id}`, newObject)
+    const request = axios.put(`${baseUrl}/${id}`, newObject)
     console.log('AFter req')
     
     return request.then(response => {
