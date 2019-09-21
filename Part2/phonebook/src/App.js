@@ -35,8 +35,10 @@ const App = () => {
           }, 5000)
         })
           .catch(error => {
+            console.log(error.response.data)
             setErrorMessage(
-              `Could not add ${newPerson.name} to the phonebook.`
+              `Could not add ${newPerson.name} to the phonebook. Please make sure the name is atleast 3 characters 
+              and that the number is atleast 8 digits long`
             )
             setTimeout(() => {
               setErrorMessage(null)
@@ -57,20 +59,18 @@ const App = () => {
     const oldPeople = persons.filter(person => newPerson.name === person.name);
     const oldPerson = oldPeople[0];
     newPerson.id = oldPerson.id;
-    console.log('trying to update')
-    
     useService.update(newPerson.id, newPerson).then(() => {
-      console.log('Updating')
-      
+
       setPersons(persons.splice(persons.findIndex(pers => pers.id === oldPerson.id), 1))
       setPersons(persons.concat(newPerson))
       setPositiveMessage(`${oldPerson.name}'s phonenumber has been updated.`)
-          setTimeout(() => {
-            setPositiveMessage(null)
-          }, 5000)
+      setTimeout(() => {
+        setPositiveMessage(null)
+      }, 5000)
     })
       .catch(error => {
-        setErrorMessage(`Could not update ${oldPerson.name}'s phone number.`)
+        console.log(error.response.data)
+        setErrorMessage(`Could not update ${oldPerson.name}'s phone number. Make sure it is atleast 8 digits long.`)
         setTimeout(() => {
           setErrorMessage(null)
         }, 5000)
@@ -85,11 +85,14 @@ const App = () => {
     const toDelete = persons.filter(person => String(person.id) === event.target.value)
     if (window.confirm(`Delete ${toDelete[0].name}?`)) {
       useService.remove(toDelete[0])
+
       setPersons(persons.filter(person => String(person.id) !== event.target.value))
-        setPositiveMessage(`${toDelete[0].name} has been removed.`)
-          setTimeout(() => {
-            setPositiveMessage(null)
-          }, 5000)
+      setPositiveMessage(`${toDelete[0].name} has been removed.`)
+      setTimeout(() => {
+        setPositiveMessage(null)
+      }, 5000)
+
+
     }
   }
 
