@@ -47,8 +47,8 @@ describe('Total likes', () => {
   })
 })// Describe end
 
-describe('Most likes', () => {
-  const mostLikes = {
+describe('From a larger list of blogs', () => {
+  const favoriteBlog = {
     _id: '5a422b3a1b54a676234d17f9',
     title: 'Canonical string reduction',
     author: 'Edsger W. Dijkstra',
@@ -56,11 +56,21 @@ describe('Most likes', () => {
     likes: 12,
     __v: 0
   }
-  test('of a larger list of blogs', () => {
-    const result = listHelper.mostLikes(fullBlogList)
-    expect(result).toEqual(mostLikes)
+  test('the favorite blog', () => {
+    const result = listHelper.favoriteBlog(fullBlogList)
+    expect(result).toEqual(favoriteBlog)
+  })
+  test.only('the author with the most blogs', () => {
+    const result = listHelper.mostBlogs(fullBlogList)
+    expect(result).toBe(1)
+  })
+
+  test('the author with the most total likes', () => {
+    const result = 0
+    expect(result).toBe(1)
   })
 })//Most likes end
+
 
 const fullBlogList = [
   {
